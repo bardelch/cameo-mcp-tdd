@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+evidence/
+/review/shim-testbed/classes*/

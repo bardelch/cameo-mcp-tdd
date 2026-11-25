@@ -1,0 +1,54 @@
+{
+  "clause": "CL-HSK-001",
+  "provenance": "Produced by fake_plugin from the DECISION-level contract; illustrative until replaced by live captures (contract section 2.1).",
+  "placeholders": "<ROOT>, <PKG>, <A>, <B> are IDs created by the 'given' steps; <NEW:n> is an ID first seen in the response; <CURSOR> is an opaque cursor.",
+  "notes": "error.message is omitted on purpose: messages are informative and never asserted (D-006).",
+  "fixtures": [
+    {
+      "id": "F-HSK-001-a",
+      "scenario": "sysml-project",
+      "given": [],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/status",
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "plugin_version": "fake-0.2.0",
+            "api_version": 1,
+            "cameo_version": null,
+            "project_open": true,
+            "port": 18740
+          }
+        }
+      }
+    },
+    {
+      "id": "F-HSK-001-b",
+      "scenario": "no-project",
+      "given": [],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/status",
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "plugin_version": "fake-0.2.0",
+            "api_version": 1,
+            "cameo_version": null,
+            "project_open": false,
+            "port": 18740
+          }
+        }
+      }
+    }
+  ]
+}

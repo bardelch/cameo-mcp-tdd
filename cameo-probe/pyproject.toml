@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cameo-probe"
+version = "0.1.0"
+description = "Authoring-time probe harness: observes a live Cameo to produce evidence for the TDD contract"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+cameo-probe = "cameo_probe.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["cameo_probe*"]

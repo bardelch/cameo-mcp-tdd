@@ -1,0 +1,49 @@
+{
+  "clause": "CL-PRJ-001",
+  "provenance": "Produced by fake_plugin from the DECISION-level contract; illustrative until replaced by live captures (contract section 2.1).",
+  "placeholders": "<ROOT>, <PKG>, <A>, <B> are IDs created by the 'given' steps; <NEW:n> is an ID first seen in the response; <CURSOR> is an opaque cursor.",
+  "notes": "error.message is omitted on purpose: messages are informative and never asserted (D-006).",
+  "fixtures": [
+    {
+      "id": "F-PRJ-001-a",
+      "scenario": "sysml-project",
+      "given": [],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/project",
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "name": "Fake Project",
+            "file_path": null,
+            "root_model_id": "<ROOT>"
+          }
+        }
+      }
+    },
+    {
+      "id": "F-PRJ-001-b",
+      "scenario": "no-project",
+      "given": [],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/project",
+        "body": null
+      },
+      "response": {
+        "status": 409,
+        "body": {
+          "ok": false,
+          "error": {
+            "code": "NO_ACTIVE_PROJECT",
+            "details": {}
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "clause": "CL-ELM-002",
+  "provenance": "Produced by fake_plugin from the DECISION-level contract; illustrative until replaced by live captures (contract section 2.1).",
+  "placeholders": "<ROOT>, <PKG>, <A>, <B> are IDs created by the 'given' steps; <NEW:n> is an ID first seen in the response; <CURSOR> is an opaque cursor.",
+  "notes": "error.message is omitted on purpose: messages are informative and never asserted (D-006).",
+  "fixtures": [
+    {
+      "id": "F-ELM-002-a",
+      "scenario": "sysml-project",
+      "given": [
+        {
+          "as": "<PKG>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Package",
+              "name": "Pkg",
+              "parent_id": "<ROOT>"
+            }
+          }
+        },
+        {
+          "as": "<A>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Class",
+              "name": "A",
+              "parent_id": "<PKG>"
+            }
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/elements/<A>",
+        "body": null
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "id": "<A>",
+            "type": "Class",
+            "name": "A",
+            "parent_id": "<PKG>",
+            "applied_stereotypes": []
+          }
+        }
+      }
+    },
+    {
+      "id": "F-ELM-002-b",
+      "scenario": "sysml-project",
+      "given": [],
+      "request": {
+        "method": "GET",
+        "path": "/api/v1/elements/missing-id",
+        "body": null
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "ok": false,
+          "error": {
+            "code": "ELEMENT_NOT_FOUND",
+            "details": {
+              "id": "missing-id"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "F-ELM-002-c",
+      "scenario": "sysml-project",
+      "given": [
+        {
+          "as": "<PKG>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Package",
+              "name": "Pkg",
+              "parent_id": "<ROOT>"
+            }
+          }
+        },
+        {
+          "as": "<A>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Class",
+              "name": "A",
+              "parent_id": "<PKG>"
+            }
+          }
+        },
+        {
+          "as": "<B>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Class",
+              "name": "B",
+              "parent_id": "<PKG>"
+            }
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements/query",
+        "body": {
+          "parent_id": "<PKG>",
+          "limit": 1
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "items": [
+              {
+                "id": "<A>",
+                "type": "Class",
+                "name": "A",
+                "parent_id": "<PKG>",
+                "applied_stereotypes": []
+              }
+            ],
+            "next_cursor": "<CURSOR>"
+          }
+        }
+      }
+    },
+    {
+      "id": "F-ELM-002-d",
+      "scenario": "sysml-project",
+      "given": [
+        {
+          "as": "<PKG>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Package",
+              "name": "Pkg",
+              "parent_id": "<ROOT>"
+            }
+          }
+        },
+        {
+          "as": "<A>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Class",
+              "name": "A",
+              "parent_id": "<PKG>"
+            }
+          }
+        },
+        {
+          "as": "<B>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Class",
+              "name": "B",
+              "parent_id": "<PKG>"
+            }
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements/query",
+        "body": {
+          "parent_id": "<PKG>",
+          "type": "Class",
+          "name": "B"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "items": [
+              {
+                "id": "<B>",
+                "type": "Class",
+                "name": "B",
+                "parent_id": "<PKG>",
+                "applied_stereotypes": []
+              }
+            ],
+            "next_cursor": null
+          }
+        }
+      }
+    }
+  ]
+}

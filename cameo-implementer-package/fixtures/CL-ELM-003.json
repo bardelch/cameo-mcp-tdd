@@ -1,0 +1,191 @@
+{
+  "clause": "CL-ELM-003",
+  "provenance": "Produced by fake_plugin from the DECISION-level contract; illustrative until replaced by live captures (contract section 2.1).",
+  "placeholders": "<ROOT>, <PKG>, <A>, <B> are IDs created by the 'given' steps; <NEW:n> is an ID first seen in the response; <CURSOR> is an opaque cursor.",
+  "notes": "error.message is omitted on purpose: messages are informative and never asserted (D-006).",
+  "fixtures": [
+    {
+      "id": "F-ELM-003-a",
+      "scenario": "sysml-project",
+      "given": [
+        {
+          "as": "<PKG>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Package",
+              "name": "Pkg",
+              "parent_id": "<ROOT>"
+            }
+          }
+        },
+        {
+          "as": "<A>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Class",
+              "name": "A",
+              "parent_id": "<PKG>"
+            }
+          }
+        },
+        {
+          "as": "<B>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Class",
+              "name": "B",
+              "parent_id": "<PKG>"
+            }
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements/<PKG>/delete",
+        "body": {}
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "preview": true,
+            "would_delete": [
+              {
+                "id": "<PKG>",
+                "type": "Package",
+                "name": "Pkg"
+              },
+              {
+                "id": "<A>",
+                "type": "Class",
+                "name": "A"
+              },
+              {
+                "id": "<B>",
+                "type": "Class",
+                "name": "B"
+              }
+            ],
+            "count": 3,
+            "truncated": false
+          }
+        }
+      }
+    },
+    {
+      "id": "F-ELM-003-b",
+      "scenario": "sysml-project",
+      "given": [
+        {
+          "as": "<PKG>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Package",
+              "name": "Pkg",
+              "parent_id": "<ROOT>"
+            }
+          }
+        },
+        {
+          "as": "<A>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Class",
+              "name": "A",
+              "parent_id": "<PKG>"
+            }
+          }
+        },
+        {
+          "as": "<B>",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/elements",
+            "body": {
+              "type": "Class",
+              "name": "B",
+              "parent_id": "<PKG>"
+            }
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements/<PKG>/delete",
+        "body": {
+          "allow_write": true
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "preview": false,
+            "deleted_count": 3
+          }
+        }
+      }
+    },
+    {
+      "id": "F-ELM-003-c",
+      "scenario": "sysml-project",
+      "given": [],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements/<ROOT>/delete",
+        "body": {
+          "allow_write": true
+        }
+      },
+      "response": {
+        "status": 422,
+        "body": {
+          "ok": false,
+          "error": {
+            "code": "PROTECTED_ELEMENT",
+            "details": {
+              "id": "<ROOT>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "F-ELM-003-d",
+      "scenario": "sysml-project",
+      "given": [],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements/missing-id/delete",
+        "body": {
+          "allow_write": "true"
+        }
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "ok": false,
+          "error": {
+            "code": "INVALID_REQUEST",
+            "details": {
+              "field": "allow_write",
+              "reason": "wrong_type"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

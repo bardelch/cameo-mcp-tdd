@@ -1,0 +1,141 @@
+{
+  "clause": "CL-ELM-001",
+  "provenance": "Produced by fake_plugin from the DECISION-level contract; illustrative until replaced by live captures (contract section 2.1).",
+  "placeholders": "<ROOT>, <PKG>, <A>, <B> are IDs created by the 'given' steps; <NEW:n> is an ID first seen in the response; <CURSOR> is an opaque cursor.",
+  "notes": "error.message is omitted on purpose: messages are informative and never asserted (D-006).",
+  "fixtures": [
+    {
+      "id": "F-ELM-001-a",
+      "scenario": "sysml-project",
+      "given": [],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements",
+        "body": {
+          "type": "Block",
+          "name": "Sensor",
+          "parent_id": "<ROOT>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "data": {
+            "id": "<NEW:1>",
+            "type": "Block",
+            "name": "Sensor",
+            "parent_id": "<ROOT>",
+            "applied_stereotypes": [
+              "Block"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "F-ELM-001-b",
+      "scenario": "uml-project",
+      "given": [],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements",
+        "body": {
+          "type": "Block",
+          "name": "Sensor",
+          "parent_id": "<ROOT>"
+        }
+      },
+      "response": {
+        "status": 422,
+        "body": {
+          "ok": false,
+          "error": {
+            "code": "REQUIRED_PROFILE_MISSING",
+            "details": {
+              "stereotype": "Block"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "F-ELM-001-c",
+      "scenario": "sysml-project",
+      "given": [],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements",
+        "body": {
+          "type": "Widget",
+          "name": "Sensor",
+          "parent_id": "<ROOT>"
+        }
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "ok": false,
+          "error": {
+            "code": "UNSUPPORTED_TYPE",
+            "details": {
+              "type": "Widget"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "F-ELM-001-d",
+      "scenario": "sysml-project",
+      "given": [],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements",
+        "body": {
+          "type": "Block",
+          "name": "Sensor",
+          "parent_id": "missing-parent"
+        }
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "ok": false,
+          "error": {
+            "code": "PARENT_NOT_FOUND",
+            "details": {
+              "parent_id": "missing-parent"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "F-ELM-001-e",
+      "scenario": "sysml-project",
+      "given": [],
+      "request": {
+        "method": "POST",
+        "path": "/api/v1/elements",
+        "body": {
+          "name": "Sensor",
+          "parent_id": "<ROOT>"
+        }
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "ok": false,
+          "error": {
+            "code": "INVALID_REQUEST",
+            "details": {
+              "field": "type",
+              "reason": "missing"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
